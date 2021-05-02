@@ -1,0 +1,2 @@
+def filtrado():
+    print('adios')
