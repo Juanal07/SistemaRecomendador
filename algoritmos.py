@@ -59,13 +59,13 @@ def filtrado():
 
     testset = trainingSet.build_anti_testset()
     predictions = algo.test(testset)
-    print(predictions)
+    for x in range(0,len(predictions)):
+        uid = predictions[x].uid
+        iid = predictions[x].iid
+        est = predictions[x].est
+        print('[',x,']','User: ',uid, 'Pelicula: ',iid,'Nota: ',round(est, 2))
 
     # top_n = get_top_n(predictions, n=3)
-
-    # # TODO: mostrar 2 decimales en la recomendacion
+    # print(top_n)
     # # TODO: motrar nombre de pelicula+iid
-
-    # for uid, user_ratings in top_n.items():
-    #     print(uid, [(iid, est) for (iid, est) in user_ratings])
 
