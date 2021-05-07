@@ -150,16 +150,6 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Ranking:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableRanking">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>250</y>
-      <width>256</width>
-      <height>192</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
@@ -265,6 +255,26 @@
      </rect>
     </property>
     <layout class="QVBoxLayout" name="resultadoPrediccion"/>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>250</y>
+      <width>211</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Nueva columna</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Predicción</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
