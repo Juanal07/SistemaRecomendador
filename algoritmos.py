@@ -46,24 +46,30 @@ def filtrado():
     # print(ratings_dict)
 
     data = Dataset.load_builtin('ml-100k')
+    
     sim_options = {
         "name": "pearson", # Similitud de coseno ajustado
         "user_based": False,  # Basado en items
     }
-    algo = KNNBasic(sim_options=sim_options)
 
-    # TODO: preguntar a macu que algoritmo es mas recomendable (knn with means? basic? etc)
+    algo = KNNBasic(sim_options=sim_options)
 
     trainingSet = data.build_full_trainset()
     algo.fit(trainingSet)
+    print('Hasta aqui entrenamiento')
 
-    testset = trainingSet.build_anti_testset()
-    predictions = algo.test(testset)
-    for x in range(0,len(predictions)):
-        uid = predictions[x].uid
-        iid = predictions[x].iid
-        est = predictions[x].est
-        print('[',x,']','User: ',uid, 'Pelicula: ',iid,'Nota: ',round(est, 2))
+    vecinos_peli = algo.get_neighbors(333, k=3)
+    print(vecinos_peli)
+    
+    # print('Empieza la prediccion')
+    # testset = trainingSet.build_anti_testset()
+    # predictions = algo.test(testset)
+    # print('Hasta aqui la prediccion')
+    # for x in range(0,len(predictions)):
+    #     uid = predictions[x].uid
+    #     iid = predictions[x].iid
+    #     est = predictions[x].est
+    #     print('[',x,']','User: ',uid, 'Pelicula: ',iid,'Nota: ',round(est, 2))
 
     # top_n = get_top_n(predictions, n=3)
     # print(top_n)
