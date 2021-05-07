@@ -10,7 +10,7 @@ SELECT userId
 FROM rating 
 GROUP BY userId;
 
--- peliculas sin ninguna opiniones
+-- peliculas sin ninguna opinion
 select movie.movieId from movie
 EXCEPT
 select rating.movieId from rating
