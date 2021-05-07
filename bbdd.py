@@ -29,6 +29,9 @@ def insertarDatos():
                     cur.execute("INSERT INTO movie VALUES(?,?,?)", (movieId,title,genres))
                 
         con.commit() #reflejamos los datos en el archivo .db
+        print("\nLa información de las peliculas ya ha sido cargada\n")
+    else:
+        print("La información de las películas ya habia sido cargada\n")
     
     #comprobamos si la tabla ya tiene datos insertados
     conteo = cur.execute('SELECT * FROM rating')
@@ -50,5 +53,8 @@ def insertarDatos():
 
                     cur.execute("INSERT INTO rating(userId,movieId,rating,timestamp) VALUES(?,?,?,?)", (userId,movieId,rating,timestamp))
         con.commit() #reflejamos los datos en el archivo .db
+        print("La información de las valoraciones ya ha sido cargada\n")
+    else:
+        print("La información de las valoraciones ya habia sido cargada\n")
 
     con.close() #cerramos la conexion con la bbdd
