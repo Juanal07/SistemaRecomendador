@@ -29,9 +29,6 @@ def insertarDatos():
                     cur.execute("INSERT INTO movie VALUES(?,?,?)", (movieId,title,genres))
                 
         con.commit() #reflejamos los datos en el archivo .db
-        print("\nLa información de las peliculas ya ha sido cargada\n")
-    else:
-        print("La información de las películas ya habia sido cargada\n")
     
     #comprobamos si la tabla ya tiene datos insertados
     conteo = cur.execute('SELECT * FROM rating')
@@ -53,8 +50,47 @@ def insertarDatos():
 
                     cur.execute("INSERT INTO rating(userId,movieId,rating,timestamp) VALUES(?,?,?,?)", (userId,movieId,rating,timestamp))
         con.commit() #reflejamos los datos en el archivo .db
-        print("La información de las valoraciones ya ha sido cargada\n")
-    else:
-        print("La información de las valoraciones ya habia sido cargada\n")
 
     con.close() #cerramos la conexion con la bbdd
+
+def votadas(uid):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    conteo = cur.execute('SELECT movieId FROM rating WHERE rating.userId = ?',(uid,))
+    lista = []
+    for (movieId) in cur:
+        lista.append(movieId[0])
+        # print(movieId)
+    con.close()
+    return lista
+
+def noVotadas(uid):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute('select movieId from rating WHERE rating.userId <> ? EXCEPT SELECT movieId FROM rating WHERE rating.userId = ?', (uid,uid))
+    lista = []
+    for (movieId) in cur:
+        lista.append(movieId[0])
+        # print(movieId)
+    con.close()
+    return lista
+
+def sameEnery(mid1, mid2):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute('SELECT rating FROM rating WHERE movieId=? AND userId IN (SELECT userId FROM rating WHERE movieId=?)', (mid1,mid2))
+    lista = []
+    for (item) in cur:
+        lista.append(item[0])
+        # print(movieId)
+    con.close()
+    return lista

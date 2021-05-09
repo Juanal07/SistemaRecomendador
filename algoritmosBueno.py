@@ -1,6 +1,21 @@
+import bbdd
 
-ratings_dict = {
-    "item": [1, 2, 1, 2, 1, 2, 1, 2, 1],
-    "user": ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E'],
-    "rating": [1, 2, 2, 4, 2.5, 4, 4.5, 5, 3],
-}
+uid = 2
+votadas = bbdd.votadas(uid)
+noVotadas =bbdd.noVotadas(uid) 
+
+def sim(mid1,mid2):
+    ratings1 = bbdd.sameEnery(mid1,mid2)
+    ratings2 = bbdd.sameEnery(mid2,mid1)
+    for i in ratings1:
+        media(uid)
+
+def media(uid):
+
+    return 5
+
+
+
+for i in votadas:
+    for j in noVotadas:
+        sim(i,j)
