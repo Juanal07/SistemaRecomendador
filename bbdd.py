@@ -59,10 +59,10 @@ def votadas(uid):
     except:
         print("No conectado")
     cur = con.cursor()
-    conteo = cur.execute('SELECT movieId FROM rating WHERE rating.userId = ?',(uid,))
+    conteo = cur.execute('SELECT movieId, rating FROM rating WHERE rating.userId = ?',(uid,))
     lista = []
-    for (movieId) in cur:
-        lista.append(movieId[0])
+    for (item) in cur:
+        lista.append((item[0],item[1]))
         # print(movieId)
     con.close()
     return lista
@@ -87,10 +87,37 @@ def sameEnery(mid1, mid2):
     except:
         print("No conectado")
     cur = con.cursor()
-    cur.execute('SELECT rating FROM rating WHERE movieId=? AND userId IN (SELECT userId FROM rating WHERE movieId=?)', (mid1,mid2))
+    cur.execute('SELECT rating, userId FROM rating WHERE movieId=? AND userId IN (SELECT userId FROM rating WHERE movieId=?)', (mid1,mid2))
+    lista = []
+    for (item) in cur:
+        lista.append((item[0],item[1]))
+    con.close()
+    return lista
+
+def commonFilms(sentencia):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute(sentencia)
     lista = []
     for (item) in cur:
         lista.append(item[0])
-        # print(movieId)
+        # print(lista)
     con.close()
     return lista
+
+def media(sentencia):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute(sentencia)
+    result=0
+    for (item) in cur:
+        result = item[0]
+    # print(result)
+    con.close()
+    return result
