@@ -82,7 +82,7 @@ def insertarDatos():
 
     con.close() #cerramos la conexion con la bbdd
 
-
+#-------------------------------------------------------------------------------------------
 def votadas(uid):
     try:
         con = sqlite3.connect('bbdd/movielens.db')
@@ -151,3 +151,41 @@ def media(sentencia):
     # print(result)
     con.close()
     return result
+
+def getUsers():
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute("SELECT userId FROM rating GROUP BY userId;")
+    lista = []
+    for (item) in cur:
+        lista.append(str(item[0]))
+    con.close()
+    return lista
+
+# def getMovies():
+#     try:
+#         con = sqlite3.connect('bbdd/movielens.db')
+#     except:
+#         print("No conectado")
+#     cur = con.cursor()
+#     cur.execute("SELECT movieId, title FROM movie;")
+#     lista = []
+#     for (item) in cur:
+#         lista.append((item[0],item[1]))
+#     con.close()
+#     return lista
+def getMovies():
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute("SELECT movieId FROM movie;")
+    lista = []
+    for (item) in cur:
+        lista.append(str(item[0]))
+    con.close()
+    return lista
