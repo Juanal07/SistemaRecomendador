@@ -189,3 +189,13 @@ def getMovies():
         lista.append(str(item[0]))
     con.close()
     return lista
+
+def insertSim(sim,p1,p2):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute("INSERT INTO similitudes(p1,p2,similitud) VALUES (?,?,?)",(p1,p2,sim))
+    con.commit()
+    con.close()

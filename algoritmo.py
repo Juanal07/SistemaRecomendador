@@ -100,8 +100,19 @@ def recomendacionesUmbral(usuario, umbral):
 def recomendacionesVecinos(usuario, vecinos):
     return
 
+def insertarSimilitudes():
+    for i in range(1,9743):
+        for j in range(i+1,9743):
+            print(i," ", j)
+            if (i==1 and j==1000): #control de loop en pruebas BORRAR
+                exit(0)
+            # calculo la similitud para el par de pelis selecionadas
+            query.insertSim(sim(i,j),i,j)
+
+insertarSimilitudes()
+
 # iid=5
-uid = 2
+# uid = 2
 # votadas = bbdd.votadas(uid)
 # noVotadas =bbdd.noVotadas(uid) 
 
