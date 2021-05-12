@@ -29,8 +29,34 @@ def insertarDatos():
                     cur.execute("INSERT INTO movie VALUES(?,?,?)", (movieId,title,genres))
                 
         con.commit() #reflejamos los datos en el archivo .db
+        print("\nLa información de las peliculas ya ha sido cargada\n")
+    else:
+        print("La información de las películas ya habia sido cargada\n")
+
+    #  Para añadir id del tmdb
+    cont = 0
+    error = 0
+    with open('ml-latest-small\links.csv', newline='', encoding='utf-8') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=';')
+        for row in spamreader:
+            print(', '.join(row)) #devolvemos la linea leida
+            if cont == 0: #para evitar la primera línea del csv
+                cont += 1
+            else: #parseamos la columna e insertamos
+                try:
+                    movieId = int(row[0])
+                    # title = row[1]
+                    tmdb = int(row[2])
+                    
+                except:
+                    error +=1
+                    tmdb=0
+                cur.execute("UPDATE movie SET tmdbId = ? WHERE movieId = ?", (tmdb,movieId))
+                
+    print(error)        
+    con.commit() #reflejamos los datos en el archivo .db
     
-    #comprobamos si la tabla ya tiene datos insertados
+    # comprobamos si la tabla ya tiene datos insertados
     conteo = cur.execute('SELECT * FROM rating')
     # print(len(conteo.fetchall()))
     if len(conteo.fetchall())<=0:
