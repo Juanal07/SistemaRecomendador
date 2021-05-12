@@ -1,8 +1,6 @@
 import bbdd
 import math
 
-
-
 def mediaSentencia(user, pelis):
     sentencia='SELECT avg(rating) from rating WHERE userId ='+str(user)+' and ('
     for i in pelis:
@@ -11,15 +9,30 @@ def mediaSentencia(user, pelis):
     sentencia+=')'
     return sentencia
 
-def prediccion(u,p):
+def prediccion(u,p,umbral=-1):
     numerador = 0
     denominador = 0
     votadas = bbdd.votadas(u)
     for i in range(len(votadas)):
         similitud = sim(votadas[i][0],p)
-        # TODO: filtro de umbral
-        numerador += similitud * votadas[i][1]
-        denominador += similitud
+        if similitud > umbral:
+            print(similitud,'>',umbral)
+            numerador += similitud * votadas[i][1]
+            denominador += similitud
+    return numerador/denominador
+
+def prediccion_vecindario(u,p,vecindario):
+    numerador = 0
+    denominador = 0
+    votadas = bbdd.votadas(u)
+    lista = []
+    for i in range(len(votadas)):
+        similitud = sim(votadas[i][0],p)
+        lista.append((similitud, votadas[i][1]))
+    lista.sort(key=lambda tup: tup[0], reverse=True)
+    for i in range(0,vecindario):
+        numerador += lista[i][0] * lista[i][1] 
+        denominador += lista[i][0]
     return numerador/denominador
 
 def sim(mid1,mid2):
@@ -29,19 +42,13 @@ def sim(mid1,mid2):
     denominador1=0
     denominador2=0
     denominador=0
-    # print(ratings1[1])
-    # print(ratings1[0][1])
     sentencia='SELECT movieId FROM rating WHERE userId = '+str(ratings1[0][1])+' and userId IN (SELECT userId FROM rating WHERE movieId='+str(mid1)+' AND userId IN (SELECT userId FROM rating WHERE movieId='+str(mid2)+'))'
     for j in ratings1:
         sentencia+='INTERSECT SELECT movieId FROM rating WHERE userId = '+str(j[1])+' and userId IN (SELECT userId FROM rating WHERE movieId='+str(mid1)+' AND userId IN (SELECT userId FROM rating WHERE movieId='+str(mid2)+'))'
-    # print(sentencia)
-    # bbdd.commonFilms(sentencia)
-    # bbdd.media(mediaSentencia(ratings1[0][1],bbdd.commonFilms(sentencia)))
     notaPonderada1 = []
     notaPonderada2 = []
-
     for i in range(len(ratings1)):
-        print('-',i)
+        print(i,'.')
         notaPonderada1.append(ratings1[i][0] - bbdd.media(mediaSentencia(ratings1[i][1],bbdd.commonFilms(sentencia))))
         notaPonderada2.append(ratings2[i][0] - bbdd.media(mediaSentencia(ratings2[i][1],bbdd.commonFilms(sentencia))))
 
@@ -56,15 +63,15 @@ uid = 2
 # votadas = bbdd.votadas(uid)
 # noVotadas =bbdd.noVotadas(uid) 
 
-for i in bbdd.noVotadas(uid):
-    print(prediccion(uid,i))
+# for i in bbdd.noVotadas(uid):
+#     print(prediccion(uid,i))
 
 # sim(1,3)
-# print(round(sim(1,),2))
+# print(round(sim(1,10),2))
 # la 1 y la 14
 # la 1 y la 3
 # la 1 y la 456
 # la 1 y la 6547 pensarla
 
-print(round(prediccion(53,1),2))
+print(round(prediccion(147,1,),2))
 # usuario 53
