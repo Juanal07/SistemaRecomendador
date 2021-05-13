@@ -199,3 +199,22 @@ def insertSim(sim,p1,p2):
     cur.execute("INSERT INTO similitudes(p1,p2,similitud) VALUES (?,?,?)",(p1,p2,sim))
     con.commit()
     con.close()
+
+def selectSim(p1,p2):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    value = 5
+    cur.execute("select similitud from similitudes where p1=? and p2=?",(p1,p2))
+    for (item) in cur:
+        value = item[0]
+    print(value)
+    print(value==None)
+    # con.commit()
+    # if value == 
+    con.close()
+    return value
+
+# similitudBBDD(2,3)

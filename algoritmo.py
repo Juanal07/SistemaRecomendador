@@ -51,6 +51,14 @@ def prediccion_vecindario(u,p,vecindario):
 # PRE { Parametros de entrada: movieId (pelicula votada), movieId (pelicula a predecir)}
 # POST { Devuelve un valor [-1 , 1] -> similitud entre ambas peliculas}
 def sim(movie1,movie2):
+    # comprobamos si el par de peliculas están en la BBDD y si no calculamos la similitud
+    if (movie1>movie2):
+        aux=movie2
+        movie2=movie1
+        movie1=aux
+    value = query.selectSim(movie1,movie2)
+    if 5 != value:
+        return value
     # Ambas listas tienen mismo tamaño y mismo orden
     # Obtenemos una lista de tuplas (rating, userId) de aquellos usuarios que han votado ambas peliculas, siendo el rating sobre la pelicula ("mid1")
     ratings1 = query.sameEnery(movie1,movie2)  
@@ -88,7 +96,9 @@ def sim(movie1,movie2):
         return 0
     else:
     # Se devuelve la similitud
-        return numerador/denominador
+        resultado = round(numerador/denominador,2)
+        query.insertSim(resultado, movie1,movie2)
+        return resultado
 
 def recomendacionesUmbral(usuario, umbral):
     noVotadas = query.noVotadas(usuario)
@@ -109,7 +119,8 @@ def insertarSimilitudes():
             # calculo la similitud para el par de pelis selecionadas
             query.insertSim(sim(i,j),i,j)
 
-insertarSimilitudes()
+# insertarSimilitudes()
+
 
 # iid=5
 # uid = 2
