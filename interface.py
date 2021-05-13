@@ -16,7 +16,7 @@ data = [['1','2'],
         ['1','3']]
 
 usuarios = getUsers()
-peliculas = getMovies()
+# peliculas = getMovies()
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -24,10 +24,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         insertarComboBox(self.boxUsuariosRanking, usuarios)
         insertarComboBox(self.boxUsuarioPrediccion, usuarios)
-        insertarComboBoxDupla(self.boxPliculas, peliculas)
+        self.boxUsuarioPrediccion.currentTextChanged.connect(self.on_combobox_changed)
+        insertarComboBoxDupla(self.boxPliculas, 1)
         # self.btnRecomendar.clicked.connect(lambda: insertarTabla(self.tableWidget, data, int(self.textRanking.text())))
         self.btnRecomendar.clicked.connect(lambda: insertarRecomendaciones(self.tableWidget, self.boxUsuariosRanking.currentText(), float(self.textSimilitud.text())))
         self.btnPredecir.clicked.connect(lambda: mostrarPrediccion(self.textPrediccion, int(self.boxUsuarioPrediccion.currentText()), int(self.boxPliculas.currentText())))
+
+    def on_combobox_changed(self, value):
+        print("combobox changed", value)
+        self.boxPliculas.clear()
+        insertarComboBoxDupla(self.boxPliculas, value)
+        # do your code
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

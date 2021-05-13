@@ -111,6 +111,20 @@ def noVotadas(uid):
     con.close()
     return lista
 
+def noVotadasCombo(uid):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    cur.execute('select movieId from rating WHERE rating.userId <> ? EXCEPT SELECT movieId FROM rating WHERE rating.userId = ?', (uid,uid))
+    lista = []
+    for (movieId) in cur:
+        lista.append(str(movieId[0]))
+        # print(movieId)
+    con.close()
+    return lista
+
 def sameEnery(mid1, mid2):
     try:
         con = sqlite3.connect('bbdd/movielens.db')
