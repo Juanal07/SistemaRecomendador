@@ -6,18 +6,24 @@ import math
 # PRE { Parametros de entrada: userId y un listado de peliculas}
 # POST { Devuelve una sentencia que calcula la media de las valoraciones realizadas por userId para el listado de peliculas pasadas por parametro}
 def mediaSentencia(user, pelis):
-    sentencia='SELECT avg(rating) from rating WHERE userId ='+str(user)+' and ('
-    limit = 990
-    index = 0
+    # sentencia='SELECT avg(rating) from rating WHERE userId ='+str(user)+' and ('
+    # limit = 990
+    # index = 0
+    size = 0
+    total = 0
     for i in pelis:
-        sentencia+='movieId = '+str(i)+' or '
-        index += 1
-        if limit == index:
-            break
-    sentencia=sentencia[:-3] # Se borra el ultimo ' or ' para obtrener una sentencia correcta y ejecutable
-    sentencia+=')' # Se finaliza la sentencia para ser ejetuada
-    print(sentencia)
-    return sentencia
+        sentencia = 'select rating from rating where userId = '+str(user)+' and movieId = '+str(i)
+        total += query.executeMedia(sentencia)
+        size += 1
+        # sentencia+='movieId = '+str(i)+' or '
+        # index += 1
+        # if limit == index:
+        #     break
+    # media = total/size
+    # sentencia=sentencia[:-3] # Se borra el ultimo ' or ' para obtrener una sentencia correcta y ejecutable
+    # sentencia+=')' # Se finaliza la sentencia para ser ejetuada
+    # print(sentencia)
+    return total/size
 # PRE { Parametros de entrada: userId, movieId, UMBRAL DE SIMILITUD(recogido de la interfaz, por defecto -1)}
 # POST { Devuelve la PREDICCION sobre la pelicula yu el usuario pasados por parametros}
 def prediccion(u,p,umbral=-1):
@@ -85,8 +91,8 @@ def sim(movie1,movie2):
         print(i,'.')
         # Calculamos las valoraciones ponderadas de cada pelicula, para todos los usuarios válidos
         # Siguiendo la formula: vp = valoracion - media de valoraciones (del usuario que ha hecho esa valoración)
-        notaPonderada1.append(ratings1[i][0] - query.media(mediaSentencia(ratings1[i][1],pelisComunes)))
-        notaPonderada2.append(ratings2[i][0] - query.media(mediaSentencia(ratings2[i][1],pelisComunes)))
+        notaPonderada1.append(ratings1[i][0] - mediaSentencia(ratings1[i][1],pelisComunes))
+        notaPonderada2.append(ratings2[i][0] - mediaSentencia(ratings2[i][1],pelisComunes))
         # Se construye el numerador y el denominador de la formula SIMILITUD DEL COSENO
         numerador+=notaPonderada1[i]*notaPonderada2[i]
         denominadorIzq+=notaPonderada1[i]**2

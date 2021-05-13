@@ -217,4 +217,21 @@ def selectSim(p1,p2):
     con.close()
     return value
 
+def executeMedia(sentencia):
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    media = 5
+    cur.execute(sentencia)
+    for (item) in cur:
+        media = item[0]
+    print("Media: ",media)
+    # print(value==None)
+    # con.commit()
+    # if value == 
+    con.close()
+    return media
+
 # similitudBBDD(2,3)
