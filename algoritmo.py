@@ -65,9 +65,9 @@ def sim(movie1,movie2):
         return value
     # Ambas listas tienen mismo tamaño y mismo orden
     # Obtenemos una lista de tuplas (rating, userId) de aquellos usuarios que han votado ambas peliculas, siendo el rating sobre la pelicula ("mid1")
-    ratings1 = query.sameEnery(movie1,movie2)  
+    ratings1 = query.sameEnergy(movie1,movie2)  
     # Obtenemos una lista de tuplas (rating, userId) de aquellos usuarios que han votado ambas peliculas, siendo el rating sobre la pelicula ("mid2")
-    ratings2 = query.sameEnery(movie2,movie1)
+    ratings2 = query.sameEnergy(movie2,movie1)
     numerador=0
     denominadorIzq=0 
     denominadorDer=0

@@ -125,7 +125,7 @@ def noVotadasCombo(uid):
     con.close()
     return lista
 
-def sameEnery(mid1, mid2):
+def sameEnergy(mid1, mid2):
     try:
         con = sqlite3.connect('bbdd/movielens.db')
     except:
