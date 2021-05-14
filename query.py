@@ -191,6 +191,7 @@ def getUsers():
 #         lista.append((item[0],item[1]))
 #     con.close()
 #     return lista
+
 def getMovies():
     try:
         con = sqlite3.connect('bbdd/movielens.db')

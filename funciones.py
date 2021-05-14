@@ -17,14 +17,15 @@ def insertarTabla(tabla, datos, filas):
 
 def insertarRecomendaciones(tabla, usuario, umbral, vecinos):
     noValoradas = query.noVotadas(usuario)
-    if vecinos != '':
+    if vecinos != '': #si la casilla de vecinos tiene releno se ejecuta el ranking de forma predeterminada
         recomendaciones = algoritmo.recomendacionesVecinos(usuario, int(vecinos))
         for fila in range(0, len(noValoradas)):
             for columna in range(0, 1):
                 tabla.setItem(fila, columna, QTableWidgetItem(recomendaciones[fila][columna]))
     else: 
-        if umbral =='':
+        if umbral =='': # de forma predeterminada al dar el boton se hace el umbral para para todos
             umbral = -1
+        # si se ha introducido un umbral (y no un vecindario), se calcula con el valor introducido
         recomendaciones = algoritmo.recomendacionesUmbral(usuario, float(umbral))
         for fila in range(0, len(noValoradas)):
             for columna in range(0, 1):

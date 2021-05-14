@@ -7,7 +7,7 @@ import math
 # POST { Devuelve una sentencia que calcula la media de las valoraciones realizadas por userId para el listado de peliculas pasadas por parametro}
 def mediaSentencia(user, pelis):
     sentencia='SELECT avg(rating) from rating WHERE userId ='+str(user)+' and ('
-    limit = 990
+    limit = 990 # para evitar el error de límite de líneas en una query
     index = 0
     for i in pelis:
         sentencia+='movieId = '+str(i)+' or '
@@ -46,7 +46,7 @@ def prediccion_vecindario(u,p,vecindario=5):
     for i in range(len(votadas)):
         similitud = sim(votadas[i][0],p)
         lista.append((similitud, votadas[i][1]))
-    lista.sort(key=lambda tup: tup[0], reverse=True)
+    lista.sort(key=lambda tup: tup[0], reverse=True) #una vez calculada la prediccion ordenamos la lista
     for i in range(0,vecindario):
         numerador += lista[i][0] * lista[i][1] 
         denominador += lista[i][0]
@@ -118,12 +118,12 @@ def recomendacionesVecinos(usuario, numVecinos):
         lista.append((noVotadas[i], prediccion_vecindario(usuario, noVotadas[i], numVecinos)))
     return lista
 
-def insertarSimilitudes():
+def insertarSimilitudes(): #funcion que calcula las 47 millones de similitudes y las guarda en BBDD
     for i in range(1,9743):
         for j in range(i+1,9743):
             print(i," ", j)
-            if (i==1 and j==1000): #control de loop en pruebas BORRAR
-                exit(0)
+            # if (i==1 and j==1000): #control de loop en pruebas BORRAR
+            #     exit(0)
             # calculo la similitud para el par de pelis selecionadas
             query.insertSim(sim(i,j),i,j)
 
