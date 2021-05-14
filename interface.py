@@ -27,7 +27,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.boxUsuarioPrediccion.currentTextChanged.connect(self.on_combobox_changed)
         insertarComboBoxDupla(self.boxPliculas, 1)
         # self.btnRecomendar.clicked.connect(lambda: insertarTabla(self.tableWidget, data, int(self.textRanking.text())))
-        self.btnRecomendar.clicked.connect(lambda: insertarRecomendaciones(self.tableWidget, self.boxUsuariosRanking.currentText(), float(self.textSimilitud.text())))
+        self.btnRecomendar.clicked.connect(lambda: insertarRecomendaciones(self.tableWidget, self.boxUsuariosRanking.currentText(), self.textSimilitud.text(), self.textRanking.text()))
         self.btnPredecir.clicked.connect(lambda: mostrarPrediccion(self.textPrediccion, int(self.boxUsuarioPrediccion.currentText()), int(self.boxPliculas.currentText())))
 
     def on_combobox_changed(self, value):

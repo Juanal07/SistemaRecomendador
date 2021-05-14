@@ -220,14 +220,11 @@ def selectSim(p1,p2):
     except:
         print("No conectado")
     cur = con.cursor()
-    value = 5
+    value = 10
     cur.execute("select similitud from similitudes where p1=? and p2=?",(p1,p2))
     for (item) in cur:
         value = item[0]
     print(value)
-    print(value==None)
-    # con.commit()
-    # if value == 
     con.close()
     return value
 

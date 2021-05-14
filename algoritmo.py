@@ -25,16 +25,20 @@ def prediccion(u,p,umbral=-1):
     denominador = 0
     votadas = query.votadas(u)   # Consulta que devuelve las peliculas votadas por un usuario
     for i in range(len(votadas)):  # Calculamos la similitud entre las peliculas votadas por el usuario y la pelicula pasados por parametros
+        print('iterador: ',i,' logitud: ',len(votadas))
         print("Pelis: ",votadas[i][0],", ",p )
         similitud = sim(votadas[i][0],p)
         if similitud >= umbral:  # Se comprueba que la similitud calculada cumpla la condición
             # Si TRUE realiza la prediccion, si FLASE pasa a la siguiente iteracion (Siguiente pelicula votada)
-            print(similitud,'>=',umbral)
-            numerador += similitud * votadas[i][1]
+            # print(similitud,'>=',umbral)
+            numerador += (similitud * votadas[i][1])
+            print(numerador)
+            print('nota de peli votada: ', votadas[i][1])
             denominador += similitud
+            print(denominador)
     return round(numerador/denominador,2)
 
-def prediccion_vecindario(u,p,vecindario):
+def prediccion_vecindario(u,p,vecindario=5):
     numerador = 0
     denominador = 0
     votadas = query.votadas(u)
@@ -46,7 +50,7 @@ def prediccion_vecindario(u,p,vecindario):
     for i in range(0,vecindario):
         numerador += lista[i][0] * lista[i][1] 
         denominador += lista[i][0]
-    return numerador/denominador
+    return round(numerador/denominador,2)
 
 # PRE { Parametros de entrada: movieId (pelicula votada), movieId (pelicula a predecir)}
 # POST { Devuelve un valor [-1 , 1] -> similitud entre ambas peliculas}
@@ -57,7 +61,7 @@ def sim(movie1,movie2):
         movie2=movie1
         movie1=aux
     value = query.selectSim(movie1,movie2)
-    if 5 != value:
+    if 10 != value:
         return value
     # Ambas listas tienen mismo tamaño y mismo orden
     # Obtenemos una lista de tuplas (rating, userId) de aquellos usuarios que han votado ambas peliculas, siendo el rating sobre la pelicula ("mid1")
@@ -107,8 +111,12 @@ def recomendacionesUmbral(usuario, umbral):
         lista.append((noVotadas[i], prediccion(usuario, noVotadas[i], umbral)))
     return lista
 
-def recomendacionesVecinos(usuario, vecinos):
-    return
+def recomendacionesVecinos(usuario, numVecinos):
+    noVotadas = query.noVotadas(usuario)
+    lista = []
+    for i in noVotadas:
+        lista.append((noVotadas[i], prediccion_vecindario(usuario, noVotadas[i], numVecinos)))
+    return lista
 
 def insertarSimilitudes():
     for i in range(1,9743):
@@ -121,6 +129,7 @@ def insertarSimilitudes():
 
 # insertarSimilitudes()
 
+# print(prueba: ',prediccion(1,5))
 
 # iid=5
 # uid = 2

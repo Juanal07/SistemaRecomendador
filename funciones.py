@@ -15,13 +15,20 @@ def insertarTabla(tabla, datos, filas):
         for columna in range(0, len(datos[0])):
             tabla.setItem(fila, columna, QTableWidgetItem(datos[fila][columna]))
 
-def insertarRecomendaciones(tabla, usuario, umbral):
+def insertarRecomendaciones(tabla, usuario, umbral, vecinos):
     noValoradas = query.noVotadas(usuario)
-    # tabla.setRowCount(noValoradas)
-    recomendaciones = algoritmo.recomendacionesUmbral(usuario, umbral)
-    for fila in range(0, len(noValoradas)):
-        for columna in range(0, 1):
-            tabla.setItem(fila, columna, QTableWidgetItem(recomendaciones[fila][columna]))
+    if vecinos != '':
+        recomendaciones = algoritmo.recomendacionesVecinos(usuario, int(vecinos))
+        for fila in range(0, len(noValoradas)):
+            for columna in range(0, 1):
+                tabla.setItem(fila, columna, QTableWidgetItem(recomendaciones[fila][columna]))
+    else: 
+        if umbral =='':
+            umbral = -1
+        recomendaciones = algoritmo.recomendacionesUmbral(usuario, float(umbral))
+        for fila in range(0, len(noValoradas)):
+            for columna in range(0, 1):
+                tabla.setItem(fila, columna, QTableWidgetItem(recomendaciones[fila][columna]))
 
 def mostrarPrediccion(prediccion, usuario, pelicula):
     prediccion.setText("")
