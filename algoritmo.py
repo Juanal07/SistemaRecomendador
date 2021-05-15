@@ -109,6 +109,7 @@ def recomendacionesUmbral(usuario, umbral):
     lista = []
     for i in noVotadas:
         lista.append((noVotadas[i], prediccion(usuario, noVotadas[i], umbral)))
+    lista.sort(key=lambda tup: tup[1], reverse=True)
     return lista
 
 def recomendacionesVecinos(usuario, numVecinos):
@@ -116,6 +117,7 @@ def recomendacionesVecinos(usuario, numVecinos):
     lista = []
     for i in noVotadas:
         lista.append((noVotadas[i], prediccion_vecindario(usuario, noVotadas[i], numVecinos)))
+    lista.sort(key=lambda tup: tup[1], reverse=True)
     return lista
 
 def insertarSimilitudes(): #funcion que calcula las 47 millones de similitudes y las guarda en BBDD
