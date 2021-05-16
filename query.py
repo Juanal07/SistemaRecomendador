@@ -39,7 +39,7 @@ def insertarDatos():
     with open('ml-latest-small\links.csv', newline='', encoding='utf-8') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';')
         for row in spamreader:
-            print(', '.join(row)) #devolvemos la linea leida
+            # print(', '.join(row)) #devolvemos la linea leida
             if cont == 0: #para evitar la primera línea del csv
                 cont += 1
             else: #parseamos la columna e insertamos
@@ -53,7 +53,7 @@ def insertarDatos():
                     tmdb=0
                 cur.execute("UPDATE movie SET tmdbId = ? WHERE movieId = ?", (tmdb,movieId))
                 
-    print(error)        
+    # print(error)        
     con.commit() #reflejamos los datos en el archivo .db
     
     # comprobamos si la tabla ya tiene datos insertados

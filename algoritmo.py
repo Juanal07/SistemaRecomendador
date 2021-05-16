@@ -78,6 +78,7 @@ def sim(movie1,movie2):
     longitud = len(ratings1)
     print("Longitud= " ,len(ratings1))
     if(longitud < 2):
+        query.insertSim(0, movie1,movie2)
         return 0
     #  consulta para obtener la lista de peliculas en comun de aquellos usuarios que han votado las peliculas "movie1" y "movie2" (pasadas por parametro)
     sentencia='SELECT movieId FROM rating WHERE userId = '+str(ratings1[0][1])+' and userId IN (SELECT userId FROM rating WHERE movieId='+str(movie1)+' AND userId IN (SELECT userId FROM rating WHERE movieId='+str(movie2)+'))'
@@ -100,6 +101,7 @@ def sim(movie1,movie2):
         denominadorDer+=notaPonderada2[i]**2
     denominador=math.sqrt(denominadorIzq)*math.sqrt(denominadorDer)
     if (denominador == 0):
+        query.insertSim(0, movie1,movie2)
         return 0
     else:
     # Se devuelve la similitud
