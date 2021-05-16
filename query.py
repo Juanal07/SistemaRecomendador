@@ -228,5 +228,19 @@ def selectSim(p1,p2):
     print(value)
     con.close()
     return value
+    
+def moviesNoOpinion():
+    try:
+        con = sqlite3.connect('bbdd/movielens.db')
+    except:
+        print("No conectado")
+    cur = con.cursor()
+    value = 10
+    cur.execute("select movie.movieId from movie EXCEPT select rating.movieId from rating GROUP  by movieId")
+    lista = []
+    for (item) in cur:
+        lista.append(str(item[0]))
+    con.close()
+    return lista
 
 # similitudBBDD(2,3)

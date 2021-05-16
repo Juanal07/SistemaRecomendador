@@ -1,12 +1,17 @@
 from PyQt5.QtWidgets import QComboBox, QTableWidget, QTableWidgetItem
 import algoritmo
 import query
+import notas
 
 def insertarComboBox(combobox, usuarios):
     combobox.addItems(usuarios)
 
 def insertarComboBoxDupla(combobox, user):
-    peliculas=query.noVotadasCombo(user)
+    peliculas = query.noVotadasCombo(user)
+    peliculasNoOpi = query.moviesNoOpinion()
+    for i in peliculasNoOpi:
+        peliculas.append(i)
+    # peliculas.sort()
     combobox.addItems(peliculas)
 
 def insertarTabla(tabla, datos, filas):
@@ -33,4 +38,8 @@ def insertarRecomendaciones(tabla, usuario, umbral, vecinos):
 
 def mostrarPrediccion(prediccion, usuario, pelicula):
     prediccion.setText("")
+    # peliculasNoOpi = query.moviesNoOpinion()
     prediccion.setText(str(algoritmo.prediccion(usuario, pelicula, )))
+    # prediccion.setText(str(notas.recomendacionExt(pelicula) + " TMDB"))
+    
+    

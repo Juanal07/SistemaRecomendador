@@ -38,6 +38,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
+    query.insertarDatos()
     window = MainWindow()
     window.show()
     app.exec_()
