@@ -14,11 +14,11 @@ def insertarComboBoxDupla(combobox, user):
     # peliculas.sort()
     combobox.addItems(peliculas)
 
-def insertarTabla(tabla, datos, filas):
-    tabla.setRowCount(filas)
-    for fila in range(0, len(datos)):
-        for columna in range(0, len(datos[0])):
-            tabla.setItem(fila, columna, QTableWidgetItem(datos[fila][columna]))
+# def insertarTabla(tabla, datos, filas):
+#     tabla.setRowCount(filas)
+#     for fila in range(0, len(datos)):
+#         for columna in range(0, len(datos[0])):
+#             tabla.setItem(fila, columna, QTableWidgetItem(datos[fila][columna]))
 
 def insertarRecomendaciones(tabla, usuario, umbral, vecinos):
     noValoradas = query.noVotadas(usuario)
