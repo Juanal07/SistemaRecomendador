@@ -2,6 +2,7 @@
 import query
 #Operaciones matemáticas (raiz)
 import math
+import notas
 
 # PRE { Parametros de entrada: userId y un listado de peliculas}
 # POST { Devuelve una sentencia que calcula la media de las valoraciones realizadas por userId para el listado de peliculas pasadas por parametro}
@@ -21,23 +22,25 @@ def mediaSentencia(user, pelis):
 # PRE { Parametros de entrada: userId, movieId, UMBRAL DE SIMILITUD(recogido de la interfaz, por defecto -1)}
 # POST { Devuelve la PREDICCION sobre la pelicula yu el usuario pasados por parametros}
 def prediccion(u,p,umbral=-1):
-    numerador = 0
-    denominador = 0
-    votadas = query.votadas(u)   # Consulta que devuelve las peliculas votadas por un usuario
-    for i in range(len(votadas)):  # Calculamos la similitud entre las peliculas votadas por el usuario y la pelicula pasados por parametros
-        print('iterador: ',i,' logitud: ',len(votadas))
-        print("Pelis: ",votadas[i][0],", ",p )
-        similitud = sim(votadas[i][0],p)
-        if similitud >= umbral:  # Se comprueba que la similitud calculada cumpla la condición
-            # Si TRUE realiza la prediccion, si FLASE pasa a la siguiente iteracion (Siguiente pelicula votada)
-            # print(similitud,'>=',umbral)
-            numerador += (similitud * votadas[i][1])
-            print(numerador)
-            print('nota de peli votada: ', votadas[i][1])
-            denominador += similitud
-            print(denominador)
-    return round(numerador/denominador,2)
-
+    try:
+        numerador = 0
+        denominador = 0
+        votadas = query.votadas(u)   # Consulta que devuelve las peliculas votadas por un usuario
+        for i in range(len(votadas)):  # Calculamos la similitud entre las peliculas votadas por el usuario y la pelicula pasados por parametros
+            print('iterador: ',i,' logitud: ',len(votadas))
+            print("Pelis: ",votadas[i][0],", ",p )
+            similitud = sim(votadas[i][0],p)
+            if similitud >= umbral:  # Se comprueba que la similitud calculada cumpla la condición
+                # Si TRUE realiza la prediccion, si FLASE pasa a la siguiente iteracion (Siguiente pelicula votada)
+                # print(similitud,'>=',umbral)
+                numerador += (similitud * votadas[i][1])
+                print(numerador)
+                print('nota de peli votada: ', votadas[i][1])
+                denominador += similitud
+                print(denominador)
+        return round(numerador/denominador,2)
+    except:
+        return str(notas.recomendacionExt(p)) + " TMDB"
 def prediccion_vecindario(u,p,vecindario=5):
     numerador = 0
     denominador = 0
